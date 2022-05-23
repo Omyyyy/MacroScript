@@ -1,3 +1,4 @@
+from turtle import right
 import pycode
 
 class Compiler:
@@ -47,3 +48,23 @@ class Compiler:
 
                     elif lenargs == 3:
                         pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()})\n"
+
+            case "rightclick":
+                if self.args == "":
+                    pycode.pycode += ind + f"pyautogui.click(button='right')\n"
+                else:
+                    lenargs = len(self.args.split(","))
+                    if lenargs == 1:
+                        pycode.pycode += ind + f"pyautogui.click(clicks={self.args}, button='right')\n"
+
+                    elif lenargs == 2:
+                        pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, button='right')\n"
+
+                    elif lenargs == 3:
+                        pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()}, button='right')\n"
+
+            case "type":
+                pycode.pycode += ind + f"pyautogui.typewrite({self.args})\n"
+
+            case "move":
+                pycode.pycode += ind + f"pyautogui.moveTo({self.args})\n"
