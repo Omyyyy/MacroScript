@@ -10,11 +10,11 @@ class Compiler:
             return
         
         if ":" in line:
-            self.cmd = line.split(":")[0].rstrip()
+            self.cmd = line.split(":")[0].strip()
             self.args = line.split(":")[1].strip()
 
         else:
-            self.cmd = line.rstrip()
+            self.cmd = line.strip()
             self.args = ""
 
         self.compile()
@@ -34,6 +34,23 @@ class Compiler:
 
             case "wait":
                 pycode.pycode += ind + f"time.sleep(float({self.args}))\n"
+
+            case "open":
+                pycode.pycode += ind + f"webbrowser.open({self.args})\n"
+
+            case "setdelay":
+                pycode.pycode += ind + f"pyautogui.PAUSE = float({self.args})\n"
+
+            case "var" | "variable":
+                varname = self.args.split("=")[0].strip()
+                varvalue = self.args.split("=")[1].strip()
+                if varvalue == "clipboard":
+                    varvalue = "pyperclip.paste()"
+
+                pycode.pycode += ind + f"{varname} = {varvalue}\n"
+
+            case "copy":
+                pycode.pycode += ind + f"pyperclip.hotkey('ctrl', 'c')\n"
 
             case "click":
                 if self.args == "":
@@ -68,3 +85,34 @@ class Compiler:
 
             case "move":
                 pycode.pycode += ind + f"pyautogui.moveTo({self.args})\n"
+
+            case "press":
+                pycode.pycode += ind + f"pyautogui.press({self.args})\n"
+
+            case "hold":
+                pycode.pycode += ind + f"pyautogui.keyDown({self.args})\n"
+
+            case "release":
+                pycode.pycode += ind + f"pyautogui.keyUp({self.args})\n"
+
+            case "if":
+                pycode.pycode += ind + f"if {self.args}:\n"
+
+            case "unless":
+                pycode.pycode += ind + f"if not {self.args}:\n"
+
+            case "elif":
+                pycode.pycode += ind + f"elif {self.args}:\n"
+
+            case "else":
+                if self.args == "":
+                    pycode.pycode += ind + f"else:\n"
+
+            case "while":
+                pycode.pycode += ind + f"while {self.args}:\n"
+
+            case "for":
+                pycode.pycode += ind + f"for {self.args}:\n"
+
+            case "until":
+                pycode.pycode += ind + f"while not {self.args}:\n"

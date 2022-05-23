@@ -5,7 +5,7 @@ import pycode
 import time
 
 def main():
-    
+
     INFO = False
 
     if len(sys.argv) < 2:
@@ -28,7 +28,11 @@ def main():
 
     runstart = time.time()
 
-    exec(pycode.pycode)
+    try:
+        exec(pycode.pycode)
+
+    except Exception:
+        print(pycode.pycode)
 
     runend = time.time()
 

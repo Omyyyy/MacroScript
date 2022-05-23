@@ -1,1 +1,2 @@
-warning: "Hello, World!"
+if: 3 == 3
+    rightclick
