@@ -8,6 +8,8 @@ def main():
 
     INFO = False
 
+    JUSTPRINTCOMPILED = False
+
     if len(sys.argv) < 2:
         print("Usage: macroscript.py <script>")
         sys.exit(1)
@@ -15,6 +17,9 @@ def main():
     script = sys.argv[-1]
     if "-i" in args:
         INFO = True
+
+    if "-p" in args:
+        JUSTPRINTCOMPILED = True
 
     if not os.path.isfile(script):
         print("error: file not found:", script)
@@ -29,14 +34,15 @@ def main():
     runstart = time.time()
 
     try:
-        exec(pycode.pycode)
+        exec(pycode.pycode) if not JUSTPRINTCOMPILED else print(pycode.pycode)
 
-    except Exception:
-        print(pycode.pycode)
+    except Exception as e:
+        print(f"error: {e}")
+        exit()
 
     runend = time.time()
 
-    print("execution took ", round(runend - runstart, 2), "s") if INFO else None
+    print(f"info: execution took {round(runend - runstart, 2)}s") if INFO else None
 
 if __name__ == "__main__":
     main()

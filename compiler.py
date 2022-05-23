@@ -1,4 +1,3 @@
-from turtle import right
 import pycode
 
 class Compiler:
@@ -10,8 +9,8 @@ class Compiler:
             return
         
         if ":" in line:
-            self.cmd = line.split(":")[0].strip()
-            self.args = line.split(":")[1].strip()
+            self.cmd = line.split(":", 1)[0].strip()
+            self.args = line.split(":", 1)[1].strip()
 
         else:
             self.cmd = line.strip()
@@ -81,7 +80,7 @@ class Compiler:
                         pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()}, button='right')\n"
 
             case "type":
-                pycode.pycode += ind + f"pyautogui.typewrite({self.args})\n"
+                pycode.pycode += ind + f"pyautogui.typewrite(str({self.args}))\n"
 
             case "move":
                 pycode.pycode += ind + f"pyautogui.moveTo({self.args})\n"
