@@ -32,7 +32,7 @@ def main():
         linepos = 0
         for line in code:
             linepos += 1
-            compiler.Compiler(line, linepos) if not line.isspace() and line != "\n" else None
+            compiler.Compiler(line, linepos, script) if not line.isspace() and line != "\n" else None
 
     runstart = time.time()
 

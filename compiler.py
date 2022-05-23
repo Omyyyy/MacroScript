@@ -3,10 +3,11 @@ import errors
 import sys
 
 class Compiler:
-    def __init__(self, line: str, linepos: int):
+    def __init__(self, line: str, linepos: int, filename: str):
 
         self.line = line
         self.linepos = linepos
+        self.filename = filename
 
         if line.startswith("#"):
             return
@@ -75,7 +76,7 @@ class Compiler:
                         pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()})\n"
 
                     else:
-                        print(errors.Error("argumenterror", "'click' only takes a max of three values after the command'", self.linepos).returnerror())
+                        print(errors.Error("argumenterror", "'click' only takes a max of three values after the command'", self.filename, self.linepos).returnerror())
                         sys.exit(1)
 
 
@@ -94,7 +95,7 @@ class Compiler:
                         pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()}, button='right')\n"
 
                     else:
-                        print(errors.Error("argumenterror", "'rightclick' only takes a max of three values after the command'", self.linepos).returnerror())
+                        print(errors.Error("argumenterror", "'rightclick' only takes a max of three values after the command'", self.filename, self.linepos).returnerror())
                         sys.exit(1)
                         
             case "type":
@@ -126,7 +127,7 @@ class Compiler:
                     pycode.pycode += ind + f"else:\n"
 
                 else:
-                    print(errors.Error("argumenterror", "'else' does not need any values after the command;", self.linepos).returnerror())
+                    print(errors.Error("argumenterror", "'else' does not need any values after the command;", self.filename, self.linepos).returnerror())
                     sys.exit(1)
 
             case "while":
