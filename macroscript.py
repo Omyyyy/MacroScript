@@ -3,6 +3,7 @@ import sys
 import os
 import pycode
 import time
+import errors
 
 def main():
 
@@ -11,7 +12,7 @@ def main():
     JUSTPRINTCOMPILED = False
 
     if len(sys.argv) < 2:
-        print("Usage: macroscript.py <script>")
+        print("usage: macroscript.py <flags> <script>")
         sys.exit(1)
     args = sys.argv[1:][::-1]
     script = sys.argv[-1]
@@ -22,14 +23,16 @@ def main():
         JUSTPRINTCOMPILED = True
 
     if not os.path.isfile(script):
-        print("error: file not found:", script)
+        print(errors.Error("filenotfound", f"'{script}' not found", "<argv>").returnerror())
         sys.exit(1)
 
     with open(script, "r") as f:
         code = f.readlines()
         code = [x.rstrip() for x in code]
+        linepos = 0
         for line in code:
-            compiler.Compiler(line) if not line.isspace() and line != "\n" else None
+            linepos += 1
+            compiler.Compiler(line, linepos) if not line.isspace() and line != "\n" else None
 
     runstart = time.time()
 
