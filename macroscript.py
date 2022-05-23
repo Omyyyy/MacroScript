@@ -4,9 +4,10 @@ import os
 import pycode
 import time
 
-INFO = False
-
 def main():
+    
+    INFO = False
+
     if len(sys.argv) < 2:
         print("Usage: macroscript.py <script>")
         sys.exit(1)
@@ -21,7 +22,7 @@ def main():
 
     with open(script, "r") as f:
         code = f.readlines()
-        code = [x.lstrip() for x in code]
+        code = [x.rstrip() for x in code]
         for line in code:
             compiler.Compiler(line) if not line.isspace() and line != "\n" else None
 
