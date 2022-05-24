@@ -1,10 +1,13 @@
 from turtle import right
 import pycode
+import errors
+import sys
 
 class Compiler:
-    def __init__(self, line: str):
+    def __init__(self, line: str, linepos: int):
 
         self.line = line
+        self.linepos = linepos
 
         if line.startswith("#"):
             return
@@ -47,6 +50,12 @@ class Compiler:
                 if varvalue == "clipboard":
                     varvalue = "pyperclip.paste()"
 
+                elif varvalue == "xposition":
+                    varvalue = "pyautogui.position()[0]"
+
+                elif varvalue == "yposition":
+                    varvalue = "pyautogui.position()[1]"
+
                 pycode.pycode += ind + f"{varname} = {varvalue}\n"
 
             case "copy":
@@ -66,6 +75,11 @@ class Compiler:
                     elif lenargs == 3:
                         pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()})\n"
 
+                    else:
+                        print(errors.Error("argumenterror", "'click' only takes a max of three values after the command'", self.linepos).returnerror())
+                        sys.exit(1)
+
+
             case "rightclick":
                 if self.args == "":
                     pycode.pycode += ind + f"pyautogui.click(button='right')\n"
@@ -80,6 +94,10 @@ class Compiler:
                     elif lenargs == 3:
                         pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()}, button='right')\n"
 
+                    else:
+                        print(errors.Error("argumenterror", "'rightclick' only takes a max of three values after the command'", self.linepos).returnerror())
+                        sys.exit(1)
+                        
             case "type":
                 pycode.pycode += ind + f"pyautogui.typewrite({self.args})\n"
 
@@ -107,6 +125,10 @@ class Compiler:
             case "else":
                 if self.args == "":
                     pycode.pycode += ind + f"else:\n"
+
+                else:
+                    print(errors.Error("argumenterror", "'else' does not need any values after the command;", self.linepos).returnerror())
+                    sys.exit(1)
 
             case "while":
                 pycode.pycode += ind + f"while {self.args}:\n"
