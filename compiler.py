@@ -1,6 +1,7 @@
 import pycode
 import errors
 import sys
+from pyautogui import click
 
 class Compiler:
     def __init__(self, line: str, linepos: int, filename: str):
@@ -138,3 +139,10 @@ class Compiler:
 
             case "until":
                 pycode.pycode += ind + f"while not {self.args}:\n"
+
+            case "exit":
+                if self.args == "":
+                    pycode.pycode += ind + f"exit()"
+                
+                else:
+                    print(errors.Error("argumenterror", "'exit' does not need any values after the command;", self.filename, self.linepos).returnerror())
