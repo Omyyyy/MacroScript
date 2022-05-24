@@ -1,3 +1,5 @@
 *.spec
 *.sh
 *.pyc
+dfm.mcs
+*.DS_Store
