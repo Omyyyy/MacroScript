@@ -1,7 +1,6 @@
 import pycode
 import errors
 import sys
-from pyautogui import click
 
 class Compiler:
     def __init__(self, line: str, linepos: int, filename: str):
