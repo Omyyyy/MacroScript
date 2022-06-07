@@ -42,7 +42,7 @@ class Compiler:
                 pycode.pycode += ind + f"webbrowser.open({self.args})\n"
 
             case "setdelay":
-                pycode.pycode += ind + f"pydirectinput.PAUSE = float({self.args})\n"
+                pycode.pycode += ind + f"pyautogui.PAUSE = float({self.args})\n"
 
             case "var" | "variable":
                 varname = self.args.split("=")[0].strip()
@@ -51,10 +51,10 @@ class Compiler:
                     varvalue = "pyperclip.paste()"
 
                 elif varvalue == "xposition":
-                    varvalue = "pydirectinput.position()[0]"
+                    varvalue = "pyautogui.position()[0]"
 
                 elif varvalue == "yposition":
-                    varvalue = "pydirectinput.position()[1]"
+                    varvalue = "pyautogui.position()[1]"
 
                 pycode.pycode += ind + f"{varname} = {varvalue}\n"
 
@@ -63,17 +63,17 @@ class Compiler:
 
             case "click":
                 if self.args == "":
-                    pycode.pycode += ind + f"pydirectinput.click()\n"
+                    pycode.pycode += ind + f"pyautogui.click()\n"
                 else:
                     lenargs = len(self.args.split(","))
                     if lenargs == 1:
-                        pycode.pycode += ind + f"pydirectinput.click(clicks={self.args})\n"
+                        pycode.pycode += ind + f"pyautogui.click(clicks={self.args})\n"
 
                     elif lenargs == 2:
-                        pycode.pycode += ind + f"pydirectinput.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()})\n"
+                        pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()})\n"
 
                     elif lenargs == 3:
-                        pycode.pycode += ind + f"pydirectinput.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()})\n"
+                        pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()})\n"
 
                     else:
                         print(errors.Error("argumenterror", "'click' only takes a max of three values after the command'", self.filename, self.linepos).returnerror())
@@ -82,36 +82,36 @@ class Compiler:
 
             case "rightclick":
                 if self.args == "":
-                    pycode.pycode += ind + f"pydirectinput.click(button='right')\n"
+                    pycode.pycode += ind + f"pyautogui.click(button='right')\n"
                 else:
                     lenargs = len(self.args.split(","))
                     if lenargs == 1:
-                        pycode.pycode += ind + f"pydirectinput.click(clicks={self.args}, button='right')\n"
+                        pycode.pycode += ind + f"pyautogui.click(clicks={self.args}, button='right')\n"
 
                     elif lenargs == 2:
-                        pycode.pycode += ind + f"pydirectinput.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, button='right')\n"
+                        pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, button='right')\n"
 
                     elif lenargs == 3:
-                        pycode.pycode += ind + f"pydirectinput.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()}, button='right')\n"
+                        pycode.pycode += ind + f"pyautogui.click(x={self.args.split(',')[0].strip()}, y={self.args.split(',')[1].strip()}, clicks={self.args.split(',')[2].strip()}, button='right')\n"
 
                     else:
                         print(errors.Error("argumenterror", "'rightclick' only takes a max of three values after the command'", self.filename, self.linepos).returnerror())
                         sys.exit(1)
                         
             case "type":
-                pycode.pycode += ind + f"pydirectinput.typewrite(str({self.args}))\n"
+                pycode.pycode += ind + f"pyautogui.typewrite(str({self.args}))\n"
 
             case "move":
-                pycode.pycode += ind + f"pydirectinput.moveTo({self.args})\n"
+                pycode.pycode += ind + f"pyautogui.moveTo({self.args})\n"
 
             case "press":
-                pycode.pycode += ind + f"pydirectinput.press({self.args})\n"
+                pycode.pycode += ind + f"pyautogui.press({self.args})\n"
 
             case "hold":
-                pycode.pycode += ind + f"pydirectinput.keyDown({self.args})\n"
+                pycode.pycode += ind + f"pyautogui.keyDown({self.args})\n"
 
             case "release":
-                pycode.pycode += ind + f"pydirectinput.keyUp({self.args})\n"
+                pycode.pycode += ind + f"pyautogui.keyUp({self.args})\n"
 
             case "if":
                 pycode.pycode += ind + f"if {self.args}:\n"
